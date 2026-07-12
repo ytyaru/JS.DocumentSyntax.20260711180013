@@ -1,5 +1,6 @@
 import {Token} from './token.js';
 import {AstNode} from './node.js';
+import {TokenizeContext, LexContext} from './context.js';
 
 // ============================================================================
 // 5. 文法拡張用オブジェクト (Grammar Definition) の完全仕様
