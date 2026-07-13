@@ -11,7 +11,14 @@ export interface BaseGrammarDefinition {
     lex(token: Token, context: LexContext): AstNode;
 }
 
-export type BlankStrategy = 'keep' | 'consume' | 'merge';
+/**
+ * フェンス・ブロック完結直後に空行（Blank）が続いていた場合の処理戦略
+ */
+export type BlankStrategy = 
+    | 'keep'    // 1. そのまま保持（Web小説の演出改行）。直後の空行を独立したBlankノードとしてそのまま出力する。
+    | 'ignore'  // 2. 無視・削除（設定フェンスや見出し用）。意味のない空白なので、直後の空行を完全に虚空に消し去る。
+    | 'suppress'// 3. ページ分割用（先頭消去）。基本は表示するが、画面の「ページ先頭」に出現した時だけ自動で消去する。
+    | 'collapse';// 4. 縮退（重複防止）。直前に別の大きな余白がある場合、空行を1行分にキュッと縮める。
 
 export type FenceGrammarDefinition = BaseGrammarDefinition & {
     kind: 'fence';
